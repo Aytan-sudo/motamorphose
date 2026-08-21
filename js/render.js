@@ -5,6 +5,7 @@ export function indiceDifference(avant, apres) {
 
 export function afficherChemin(element, partie, affichages) {
   element.replaceChildren();
+  element.style.setProperty('--mot-longueur', partie.depart.length);
   partie.chemin.forEach((mot, ligne) => {
     const precedent = partie.chemin[ligne - 1];
     const change = precedent ? indiceDifference(precedent, mot) : -1;
@@ -25,4 +26,3 @@ export function afficherChemin(element, partie, affichages) {
 export function afficherCible(element, mot, affichages) {
   element.textContent = affichages.get(mot) || mot;
 }
-

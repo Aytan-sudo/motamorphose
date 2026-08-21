@@ -6,9 +6,9 @@ export function dateLocale(date = new Date()) {
   return `${annee}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
 }
 
-export function defiDuJour(graphe, communs, date = new Date()) {
+export function defiDuJour(graphe, communs, longueur, date = new Date()) {
   const jour = dateLocale(date);
-  return { ...choisirPaire(graphe, communs, 5, creerHasard(`mots5-v1:${jour}`)), jour, mode: 'jour' };
+  return { ...choisirPaire(graphe, communs, 5, creerHasard(`mots${longueur}-v2:${jour}`)), jour, mode: 'jour' };
 }
 
 export function partager(partie, jour = null) {
@@ -16,4 +16,3 @@ export function partager(partie, jour = null) {
   const ligne = Array.from({ length: coups }, (_, i) => i < partie.optimal ? '🟩' : '🟧').join('');
   return `Motamorphose${jour ? ` — ${jour}` : ''}\n${coups} étapes · optimal ${partie.optimal}\n${ligne}\n💡 ${partie.indices} indice${partie.indices > 1 ? 's' : ''}`;
 }
-

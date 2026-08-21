@@ -1,7 +1,8 @@
 # Motamorphose
 
 Un jeu de mot-échelle français : partez d’un mot et rejoignez la cible en ne
-changeant qu’une lettre à chaque étape. Le jeu annonce ensuite le nombre de
+changeant qu’une lettre à chaque étape. Les sessions proposent quatre, cinq
+ou six lettres, avec cinq par défaut. Le jeu annonce ensuite le nombre de
 coups joués et la distance optimale.
 
 Il fonctionne dans le navigateur, au doigt comme au clavier, sans serveur et
@@ -23,7 +24,8 @@ Les résultats quotidiens et la série sont conservés uniquement dans le
 
 ## Le dictionnaire
 
-La liste versionnée est produite hors ligne à partir de **Lexique 4.00**. Deux
+Les trois listes versionnées sont produites hors ligne à partir de **Lexique
+4.00**, **Morphalou 3.1** et **Grammalecte 7.7**. Deux
 niveaux sont conservés : les mots acceptés, utilisables par le joueur, et les
 mots communs, seuls autorisés pour garantir au moins une solution accessible.
 L’optimal est toujours calculé dans le dictionnaire accepté complet.
@@ -32,9 +34,10 @@ Source : New, B., Pallier, C., Schalchli, G., Bourgin, J., & Gimenes, M. (2026),
 « Lexique 4: A major upgrade of the “Lexique” French lexical database »,
 *Behavior Research Methods*, [lexique.org](https://www.lexique.org/).
 
-Lexique est distribué sous licence **CC BY-SA 4.0**. Le fichier dérivé
-`js/data/mots5.json` est partagé sous les mêmes conditions. Le TSV original
-n’est pas versionné.
+Lexique est distribué sous licence **CC BY-SA 4.0**, Morphalou sous
+**LGPL-LR** et le lexique Grammalecte sous **MPL 2.0**. Les sources brutes ne
+sont pas versionnées ; leurs notices et les liens de téléchargement sont
+documentés dans `donnees-source/README.md`.
 
 ## Comment c’est fait
 
@@ -55,10 +58,10 @@ js/app.js       assemblage du navigateur
 
 ## Développement
 
-Téléchargez `Lexique400.tsv` dans `donnees-source/`, puis :
+Téléchargez les trois sources décrites dans `donnees-source/README.md`, puis :
 
 ```bash
-npm run dictionnaire  # reconstruit js/data/mots5.json et affiche son audit
+npm run dictionnaire  # reconstruit les JSON 4, 5 et 6 lettres
 npm test              # teste le noyau et la structure sans navigateur
 npm run serve         # ouvre un serveur sur http://localhost:8765
 ```
@@ -68,13 +71,13 @@ ne fonctionne pas, car le navigateur doit charger des modules ES et le JSON.
 
 ## Ce qui n’est pas là
 
-Le dictionnaire privilégie volontairement les mots familiers. Il ne cherche pas
-à accepter tous les termes techniques, régionaux ou anciens du français.
+Le dictionnaire accepté exige soit une présence confirmée dans deux sources,
+soit les mesures de familiarité de Lexique. Il ne prétend pas couvrir tous les
+termes techniques, régionaux ou anciens du français.
 
 Les mots sont saisis sans accent pour éliminer les ambiguïtés entre formes
 normalisées. La graphie accentuée retenue par Lexique reste affichée, mais deux
 homographes tels que « cote » et « côte » ne peuvent pas coexister.
 
-Le mode quotidien est stable pour une date et la version `mots5-v1` du
-dictionnaire. Une future liste de quatre lettres formera une série distincte.
-
+Le mode quotidien est stable pour une date, une longueur et la version 2 du
+dictionnaire. Les séries quotidiennes sont distinctes pour chaque longueur.

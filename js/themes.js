@@ -1,4 +1,4 @@
-export const THEMES = ['papier', 'nuit', 'contraste'];
+export const THEMES = ['papier', 'nuit', 'contraste', 'ocean', 'foret', 'bonbon'];
 
 export function themeInitial(stockage = globalThis.localStorage) {
   const theme = stockage?.getItem('motamorphose:theme');
@@ -8,4 +8,3 @@ export function themeInitial(stockage = globalThis.localStorage) {
 export function themeSuivant(theme) {
   return THEMES[(THEMES.indexOf(theme) + 1) % THEMES.length];
 }
-

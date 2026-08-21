@@ -10,17 +10,23 @@ function veille(jour) {
   return d.toISOString().slice(0, 10);
 }
 
+export function seriePour(record, longueur) {
+  return record.series?.[longueur] || 0;
+}
+
 export function enregistrer(record, partie, jour, stockage = globalThis.localStorage) {
-  const dejaFait = Boolean(record.jours[jour]);
-  const nouvelleSerie = dejaFait ? record.serie : (record.dernierJour === veille(jour) ? record.serie + 1 : 1);
+  const longueur = partie.depart.length, cleJour = `${longueur}:${jour}`;
+  const serieActuelle = seriePour(record, longueur);
+  const dernierJour = record.derniersJours?.[longueur];
+  const dejaFait = Boolean(record.jours[cleJour]);
+  const nouvelleSerie = dejaFait ? serieActuelle : (dernierJour === veille(jour) ? serieActuelle + 1 : 1);
   const prochain = {
     ...record,
-    jours: { ...record.jours, [jour]: { etapes: partie.chemin.length - 1, optimal: partie.optimal, indices: partie.indices } },
-    serie: nouvelleSerie,
+    jours: { ...record.jours, [cleJour]: { etapes: partie.chemin.length - 1, optimal: partie.optimal, indices: partie.indices } },
+    series: { ...record.series, [longueur]: nouvelleSerie },
+    derniersJours: { ...record.derniersJours, [longueur]: jour },
     meilleureSerie: Math.max(record.meilleureSerie || 0, nouvelleSerie),
-    dernierJour: jour
   };
   stockage.setItem(CLE_STOCKAGE, JSON.stringify(prochain));
   return prochain;
 }
-

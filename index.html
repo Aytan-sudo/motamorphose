@@ -14,7 +14,7 @@
   <header class="barre">
     <button id="apropos" class="bouton-icone" aria-label="À propos">?</button>
     <div class="marque"><span>Motamorphose</span><small>une lettre à la fois</small></div>
-    <button id="theme" class="bouton-icone" aria-label="Changer de thème">◐</button>
+    <button id="options" class="bouton-icone" aria-label="Options">⚙</button>
   </header>
 
   <main>
@@ -23,7 +23,7 @@
       <button id="mode-libre" aria-pressed="false">Libre</button>
     </nav>
 
-    <section class="carte-jeu" aria-labelledby="objectif">
+    <section id="carte-jeu" class="carte-jeu" aria-labelledby="objectif">
       <div class="objectif" id="objectif"><span>Rejoins</span><strong id="mot-cible">·····</strong></div>
       <div class="meta"><span id="statut">0 étape</span><span>Série <b id="serie">0</b> 🔥</span></div>
       <ol id="chemin" class="chemin" aria-label="Mots joués" aria-live="polite"></ol>
@@ -61,11 +61,30 @@
 
   <dialog id="dialogue-apropos">
     <h2>À propos</h2>
-    <p>Va d’un mot à l’autre en changeant exactement une lettre à chaque étape. Tous les mots ont cinq lettres.</p>
-    <p>La liste est dérivée de <a href="https://www.lexique.org/">Lexique 4</a>, par New, Pallier, Schalchli, Bourgin et Gimenes (2026), sous licence CC BY-SA 4.0. La liste dérivée est partagée sous la même licence.</p>
+    <p>Va d’un mot à l’autre en changeant exactement une lettre à chaque étape. Les parties utilisent des mots de quatre, cinq ou six lettres.</p>
+    <p>Le dictionnaire est construit hors ligne à partir de <a href="https://www.lexique.org/">Lexique 4</a> (CC BY-SA 4.0), <a href="https://hdl.handle.net/11403/morphalou/v3.1">Morphalou 3.1</a> (LGPL-LR) et <a href="https://www.grammalecte.net/">Grammalecte 7.7</a> (MPL 2.0). Les sources et leurs licences sont documentées dans le dépôt.</p>
     <button id="fermer-apropos">Fermer</button>
+  </dialog>
+  <dialog id="dialogue-options">
+    <div class="entete-dialogue">
+      <h2>Options</h2>
+      <button id="fermer-options" class="bouton-icone" aria-label="Fermer les options">×</button>
+    </div>
+    <div class="champ-option">
+      <label for="longueur">Longueur des mots</label>
+      <select id="longueur">
+        <option value="4">4 lettres</option>
+        <option value="5">5 lettres — par défaut</option>
+        <option value="6">6 lettres</option>
+      </select>
+      <small>Changer de longueur commence une nouvelle partie.</small>
+    </div>
+    <div class="champ-option">
+      <label for="choix-theme">Thème de couleurs</label>
+      <select id="choix-theme"></select>
+    </div>
+    <p id="version" class="version">Version …</p>
   </dialog>
   <script type="module" src="js/app.js"></script>
 </body>
 </html>
-
