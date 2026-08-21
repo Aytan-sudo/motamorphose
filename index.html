@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="fr" data-theme="papier">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f6f1e7">
+  <meta name="description" content="Transformez un mot en un autre, une lettre à la fois.">
+  <title>Motamorphose — de mot en mot</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="barre">
+    <button id="apropos" class="bouton-icone" aria-label="À propos">?</button>
+    <div class="marque"><span>Motamorphose</span><small>une lettre à la fois</small></div>
+    <button id="theme" class="bouton-icone" aria-label="Changer de thème">◐</button>
+  </header>
+
+  <main>
+    <nav class="modes" aria-label="Mode de jeu">
+      <button id="mode-jour" aria-pressed="true">Mot du jour</button>
+      <button id="mode-libre" aria-pressed="false">Libre</button>
+    </nav>
+
+    <section class="carte-jeu" aria-labelledby="objectif">
+      <div class="objectif" id="objectif"><span>Rejoins</span><strong id="mot-cible">·····</strong></div>
+      <div class="meta"><span id="statut">0 étape</span><span>Série <b id="serie">0</b> 🔥</span></div>
+      <ol id="chemin" class="chemin" aria-label="Mots joués" aria-live="polite"></ol>
+
+      <form id="formulaire-mot" autocomplete="off">
+        <label for="saisie-mot">Ton prochain mot</label>
+        <div class="saisie">
+          <input id="saisie-mot" name="mot" type="text" inputmode="text" autocapitalize="none" autocomplete="off" spellcheck="false" maxlength="8" enterkeyhint="go">
+          <button type="submit" aria-label="Valider le mot">→</button>
+        </div>
+        <p id="erreur" class="erreur" role="alert"></p>
+      </form>
+
+      <div class="actions">
+        <button id="annuler">↶ Revenir</button>
+        <button id="indice">💡 Indice</button>
+      </div>
+    </section>
+
+    <section class="libre">
+      <label for="difficulte">Difficulté</label>
+      <select id="difficulte"><option value="facile">Douce · 4</option><option value="moyen" selected>Épicée · 5</option><option value="difficile">Corsée · 6</option></select>
+      <button id="nouveau">Nouvelle paire</button>
+    </section>
+
+    <section id="resultat" class="resultat" hidden aria-live="assertive">
+      <div class="confettis" aria-hidden="true">A · B · C · D · E</div>
+      <h2>Motamorphose réussie !</h2>
+      <p id="resume"></p>
+      <div class="actions"><button id="partage">Partager</button><button id="recommencer">Rejouer</button></div>
+    </section>
+  </main>
+
+  <footer>Graphe construit en <span id="temps-graphe">…</span> · Jouable hors ligne</footer>
+
+  <dialog id="dialogue-apropos">
+    <h2>À propos</h2>
+    <p>Va d’un mot à l’autre en changeant exactement une lettre à chaque étape. Tous les mots ont cinq lettres.</p>
+    <p>La liste est dérivée de <a href="https://www.lexique.org/">Lexique 4</a>, par New, Pallier, Schalchli, Bourgin et Gimenes (2026), sous licence CC BY-SA 4.0. La liste dérivée est partagée sous la même licence.</p>
+    <button id="fermer-apropos">Fermer</button>
+  </dialog>
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
+
