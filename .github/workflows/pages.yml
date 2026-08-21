@@ -26,10 +26,9 @@ jobs:
       - name: Configurer Pages
         uses: actions/configure-pages@v5
       - name: Préparer le site
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v4
         with:
           path: .
       - name: Publier
         id: deploiement
         uses: actions/deploy-pages@v4
-
