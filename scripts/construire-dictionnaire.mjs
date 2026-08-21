@@ -13,7 +13,7 @@ const source = resolve(RACINE, options.source || 'donnees-source/Lexique400.tsv'
 const sortie = resolve(RACINE, options.sortie || `js/data/mots${longueur}.json`);
 const seuilAccepte = Number(options['seuil-accepte'] || 50);
 const seuilCommun = Number(options['seuil-commun'] || 95);
-const frequenceSecours = Number(options['frequence-secours'] || 3);
+const frequenceSecours = Number(options['frequence-secours'] || 0.1);
 
 // Lexique 4 ne marque pas les noms propres. Cette liste prudente ne contient que
 // des formes notoirement propres rencontrées pendant l'audit des mots de 5 lettres.
@@ -38,7 +38,9 @@ function normaliser(mot) {
 }
 
 function nombre(valeur) {
-  const n = Number(String(valeur || '').replace(',', '.'));
+  const texte = String(valeur ?? '').trim();
+  if (!texte) return null;
+  const n = Number(texte.replace(',', '.'));
   return Number.isFinite(n) ? n : null;
 }
 

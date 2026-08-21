@@ -12,5 +12,7 @@ const reference = variables(palettes[0][1]);
 for (const [nom, bloc] of palettes.slice(1)) assert.deepEqual(variables(bloc), reference, `palette incomplète ${nom}`);
 for (const module of [...app.matchAll(/from ['"](\.\/[^'"]+)['"]/g)].map(m => m[1])) assert.match(sw, new RegExp(module.replace('./', './js/').replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
 assert.ok((await stat(new URL('js/data/mots5.json', racine))).size < 300_000);
+const dictionnaire = JSON.parse(await readFile(new URL('js/data/mots5.json', racine), 'utf8'));
+assert.ok(dictionnaire.mots.some(entree => entree.mot === 'alter'), 'ALTER doit être accepté via la fréquence de secours');
 assert.doesNotMatch(html, /Math\.random/); assert.doesNotMatch(app, /Math\.random/);
 console.log('✓ page, palettes, cache et dictionnaire');
