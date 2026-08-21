@@ -16,8 +16,9 @@ mot courant. La lettre transformée est mise en évidence dans la chaîne.
 - **Mot du jour** — la même paire pour tout le monde, dérivée de la date.
 - **Libre** — une nouvelle paire à distance optimale 4, 5 ou 6.
 - **Indice** — propose la prochaine étape optimale depuis votre position
-  actuelle. Il est comptabilisé dans le résultat partagé.
+  actuelle. Deux indices sont disponibles par partie et coûtent 15 points chacun.
 - **Revenir** — retire la dernière étape tant que la partie n’est pas terminée.
+  Chaque retour coûte 3 points et apparaît dans le résultat partagé.
 
 Les résultats quotidiens et la série sont conservés uniquement dans le
 `localStorage` du navigateur.

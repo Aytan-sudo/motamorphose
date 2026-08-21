@@ -14,5 +14,5 @@ export function defiDuJour(graphe, communs, longueur, date = new Date()) {
 export function partager(partie, jour = null) {
   const coups = partie.chemin.length - 1;
   const ligne = Array.from({ length: coups }, (_, i) => i < partie.optimal ? '🟩' : '🟧').join('');
-  return `Motamorphose${jour ? ` — ${jour}` : ''}\n${coups} étapes · optimal ${partie.optimal}\n${ligne}\n💡 ${partie.indices} indice${partie.indices > 1 ? 's' : ''}`;
+  return `Motamorphose · ${partie.depart.length} lettres${jour ? ` — ${jour}` : ''}\n${coups} étapes · optimal ${partie.optimal}\n${ligne}\n💡 ${partie.indices}/2 · ↶ ${partie.retours}`;
 }

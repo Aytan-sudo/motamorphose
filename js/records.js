@@ -22,7 +22,7 @@ export function enregistrer(record, partie, jour, stockage = globalThis.localSto
   const nouvelleSerie = dejaFait ? serieActuelle : (dernierJour === veille(jour) ? serieActuelle + 1 : 1);
   const prochain = {
     ...record,
-    jours: { ...record.jours, [cleJour]: { etapes: partie.chemin.length - 1, optimal: partie.optimal, indices: partie.indices } },
+    jours: { ...record.jours, [cleJour]: { etapes: partie.chemin.length - 1, optimal: partie.optimal, indices: partie.indices, retours: partie.retours } },
     series: { ...record.series, [longueur]: nouvelleSerie },
     derniersJours: { ...record.derniersJours, [longueur]: jour },
     meilleureSerie: Math.max(record.meilleureSerie || 0, nouvelleSerie),

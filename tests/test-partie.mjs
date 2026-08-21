@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { creerPartie, validerMot, annuler, demanderIndice } from '../js/partie.js';
+import { creerPartie, validerMot, annuler, demanderIndice, score, MAX_INDICES } from '../js/partie.js';
 import { construireGraphe } from '../js/graphe.js';
 
 const mots = new Map(['poule','boule','bouge','rouge'].map(m => [m, m]));
@@ -11,9 +11,13 @@ partie = validerMot(partie, 'Boulé', mots).partie;
 assert.deepEqual(partie.chemin, ['poule','boule']);
 partie = annuler(partie);
 assert.deepEqual(partie.chemin, ['poule']);
+assert.equal(partie.retours, 1);
 const graphe = construireGraphe([...mots.keys()]);
 const indice = demanderIndice(partie, graphe.voisins);
 assert.equal(indice.mot, 'boule');
 assert.equal(indice.partie.indices, 1);
+const second = demanderIndice(indice.partie, graphe.voisins);
+assert.equal(second.partie.indices, MAX_INDICES);
+assert.equal(demanderIndice(second.partie, graphe.voisins).limite, true);
+assert.equal(score({ chemin: ['a','b','c'], optimal: 2, indices: 1, retours: 1 }), 82);
 console.log('✓ partie et validations');
-

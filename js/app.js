@@ -1,13 +1,13 @@
 import { construireGraphe } from './graphe.js';
 import { creerHasard } from './hasard.js';
 import { choisirPaire, DISTANCES } from './paires.js';
-import { creerPartie, validerMot, annuler, demanderIndice, score } from './partie.js';
+import { creerPartie, validerMot, annuler, demanderIndice, score, MAX_INDICES } from './partie.js';
 import { defiDuJour, partager } from './defi.js';
 import { charger, enregistrer, seriePour } from './records.js';
 import { THEMES, themeInitial } from './themes.js';
 import { afficherChemin, afficherCible } from './render.js';
 
-const VERSION = '1.1.0';
+const VERSION = '1.1.1';
 const $ = id => document.getElementById(id);
 const elements = {
   chemin: $('chemin'), cible: $('mot-cible'), formulaire: $('formulaire-mot'), saisie: $('saisie-mot'),
@@ -63,7 +63,8 @@ function rendre(message = '') {
   afficherCible(elements.cible, partie.cible, affichages);
   elements.erreur.textContent = message;
   elements.annuler.disabled = partie.chemin.length <= 1 || partie.terminee;
-  elements.indice.disabled = partie.terminee;
+  elements.indice.disabled = partie.terminee || partie.indices >= MAX_INDICES;
+  elements.indice.textContent = `💡 Indice (${MAX_INDICES - partie.indices})`;
   elements.statut.textContent = `${partie.chemin.length - 1} étape${partie.chemin.length > 2 ? 's' : ''}`;
   elements.carte.setAttribute('aria-label', `Partie de ${longueur} lettres`);
   if (partie.terminee) finir();
@@ -88,7 +89,7 @@ function finir() {
   elements.formulaire.hidden = true;
   elements.resultat.hidden = false;
   const etapes = partie.chemin.length - 1;
-  elements.resume.textContent = `Trouvé en ${etapes}, l’optimal est ${partie.optimal}. Score : ${score(partie)}.`;
+  elements.resume.textContent = `Trouvé en ${etapes}, optimal ${partie.optimal} · ${partie.indices} indice${partie.indices > 1 ? 's' : ''} · ${partie.retours} retour${partie.retours > 1 ? 's' : ''} · score ${score(partie)}.`;
   if (partie.mode === 'jour' && partie.jour) {
     record = enregistrer(record, partie, partie.jour);
     elements.serie.textContent = seriePour(record, longueur);
@@ -104,7 +105,7 @@ elements.formulaire.addEventListener('submit', evenement => {
 elements.annuler.addEventListener('click', () => { partie = annuler(partie); rendre(); });
 elements.indice.addEventListener('click', () => {
   const resultat = demanderIndice(partie, graphe.voisins); partie = resultat.partie;
-  rendre(resultat.mot ? `Indice : essaie « ${affichages.get(resultat.mot) || resultat.mot} ».` : 'Aucun chemin trouvé.');
+  rendre(resultat.mot ? `Indice : essaie « ${affichages.get(resultat.mot) || resultat.mot} ».` : resultat.limite ? 'Les deux indices ont déjà été utilisés.' : 'Aucun chemin trouvé.');
 });
 elements.nouveau.addEventListener('click', () => nouvellePartie('libre'));
 elements.modeJour.addEventListener('click', () => nouvellePartie('jour'));
