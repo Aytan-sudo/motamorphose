@@ -8,6 +8,13 @@ coups joués et la distance optimale.
 Il fonctionne dans le navigateur, au doigt comme au clavier, sans serveur et
 sans dépendance de production. Une fois chargé, il reste disponible hors ligne.
 
+## Version 1.1.2
+
+- les cibles tactiles de l'interface passent à 44 px (boutons d'en-tête,
+  boutons texte, listes déroulantes), conformément à la convention.
+- la liste déroulante de difficulté reçoit une hauteur ferme — WebKit ignore
+  `min-height` sur un `select` natif et la rendait à 23 px sur iPhone.
+
 ## Jouer
 
 Saisissez un mot français de cinq lettres qui ne diffère que d’une lettre du
