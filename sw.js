@@ -6,7 +6,7 @@ const RESSOURCES = [
   './js/data/mots4.json', './js/data/mots5.json', './js/data/mots6.json'
 ];
 self.addEventListener('install', evenement => evenement.waitUntil(caches.open(CACHE).then(cache => cache.addAll(RESSOURCES)).then(() => self.skipWaiting())));
-self.addEventListener('activate', evenement => evenement.waitUntil(caches.keys().then(cles => Promise.all(cles.filter(c => c !== CACHE).map(c => caches.delete(c)))).then(() => self.clients.claim())));
+self.addEventListener('activate', evenement => evenement.waitUntil(caches.keys().then(cles => Promise.all(cles.filter(c => c.startsWith('motamorphose-v') && c !== CACHE).map(c => caches.delete(c)))).then(() => self.clients.claim())));
 self.addEventListener('fetch', evenement => {
   if (evenement.request.method !== 'GET') return;
   evenement.respondWith(caches.match(evenement.request).then(cache => cache || fetch(evenement.request).then(reponse => {
