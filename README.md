@@ -8,6 +8,12 @@ coups joués et la distance optimale.
 Il fonctionne dans le navigateur, au doigt comme au clavier, sans serveur et
 sans dépendance de production. Une fois chargé, il reste disponible hors ligne.
 
+## Version 1.2.2 — Passeport 1.8.0
+
+Module commun du passeport 1.8.0 : **Maze for Adventurers** rejoint le thème
+Aventure, aux côtés de Snake. Toute la collection est désormais raccordée. Rien
+ne change dans le jeu.
+
 ## Version 1.2.1 — L'enregistrement du service worker ne crie plus
 
 Il n'avait pas de garde : quitter la page pendant le chargement du script
