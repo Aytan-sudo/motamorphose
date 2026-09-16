@@ -8,6 +8,18 @@ coups joués et la distance optimale.
 Il fonctionne dans le navigateur, au doigt comme au clavier, sans serveur et
 sans dépendance de production. Une fois chargé, il reste disponible hors ligne.
 
+## Version 1.1.3
+
+- **le viewport interdit enfin le zoom tactile** (`user-scalable=no`, complété
+  par `touch-action: manipulation` — iOS ignore le premier) ;
+- **l'icône d'écran d'accueil existe** : `assets/icon-180.png`, plus les PNG
+  192 et 512 du manifeste, exportés d'`icon.svg` par `npm run icones`. iOS
+  refuse le SVG : sans ce PNG, un jeu ajouté à l'écran d'accueil n'a pas
+  d'icône. Le précache les liste, le cache passe en v7.
+
+Les deux manques dataient de la première version et ne se voyaient pas depuis
+un ordinateur ; c'est la vérification dans le simulateur iOS qui les a levés.
+
 ## Version 1.1.2
 
 - les cibles tactiles de l'interface passent à 44 px (boutons d'en-tête,
