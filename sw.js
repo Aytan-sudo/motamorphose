@@ -1,6 +1,7 @@
-const CACHE = 'motamorphose-v6';
+const CACHE = 'motamorphose-v7';
 const RESSOURCES = [
   './', './index.html', './css/style.css', './manifest.webmanifest', './assets/icon.svg',
+  './assets/icon-180.png', './assets/icon-192.png', './assets/icon-512.png',
   './js/app.js', './js/render.js', './js/graphe.js', './js/bfs.js', './js/paires.js',
   './js/partie.js', './js/defi.js', './js/hasard.js', './js/records.js', './js/themes.js',
   './js/data/mots4.json', './js/data/mots5.json', './js/data/mots6.json'

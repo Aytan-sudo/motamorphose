@@ -1,12 +1,13 @@
 {
   "name": "motamorphose",
-  "version": "1.1.2",
+  "version": "1.1.3",
   "private": true,
   "description": "Jeu français de mot-échelle, hors ligne et sans dépendance.",
   "type": "module",
   "scripts": {
     "dictionnaire": "node scripts/construire-dictionnaire.mjs",
     "test": "node tests/test-graphe.mjs && node tests/test-partie.mjs && node tests/test-defi.mjs && node tests/test-structure.mjs",
-    "serve": "python3 -m http.server 8765"
+    "serve": "python3 -m http.server 8765",
+    "icones": "node scripts/icones.mjs"
   }
 }
