@@ -8,6 +8,12 @@ coups joués et la distance optimale.
 Il fonctionne dans le navigateur, au doigt comme au clavier, sans serveur et
 sans dépendance de production. Une fois chargé, il reste disponible hors ligne.
 
+## Version 1.2.1 — L'enregistrement du service worker ne crie plus
+
+Il n'avait pas de garde : quitter la page pendant le chargement du script
+suffisait à faire remonter une erreur, alors que le jeu reste jouable — il perd
+seulement le hors-ligne. Les six autres jeux raccordés en avaient déjà une.
+
 ## Version 1.2.0 — Le passeport commun
 
 Ouvert depuis le hub avec un passeport, le jeu range séries, réglages et thème

@@ -7,7 +7,7 @@ import { charger, enregistrer, seriePour, compterMotPasseport } from './records.
 import { THEMES, themeInitial } from './themes.js';
 import { afficherChemin, afficherCible } from './render.js';
 
-const VERSION = '1.2.0';
+const VERSION = '1.2.1';
 const $ = id => document.getElementById(id);
 const elements = {
   chemin: $('chemin'), cible: $('mot-cible'), formulaire: $('formulaire-mot'), saisie: $('saisie-mot'),
@@ -152,4 +152,8 @@ async function demarrer() {
 }
 
 demarrer().catch(erreur => { elements.erreur.textContent = `Le jeu n’a pas pu démarrer : ${erreur.message}`; });
-if ('serviceWorker' in navigator) addEventListener('load', () => navigator.serviceWorker.register('./sw.js'));
+// L'enregistrement peut échouer — quitter la page pendant le chargement du
+// script suffit. Sans garde, le refus remonte en erreur de page, alors que le
+// jeu reste parfaitement jouable : il perd seulement le hors-ligne.
+if ('serviceWorker' in navigator) addEventListener('load',
+  () => navigator.serviceWorker.register('./sw.js').catch(() => { /* hors ligne indisponible */ }));
