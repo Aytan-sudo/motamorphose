@@ -30,3 +30,20 @@ export function enregistrer(record, partie, jour, stockage = globalThis.localSto
   stockage.setItem(CLE_STOCKAGE, JSON.stringify(prochain));
   return prochain;
 }
+
+// ------------------------------------------------------------- le passeport
+//
+// Les mots acceptes dans la journee, pour le tampon a l'effort. Le compte ne
+// vit que dans l'espace d'un joueur : en mode invite, rien n'est compte ni
+// ecrit, et le stockage du jeu reste ce qu'il etait avant le raccordement.
+
+export const CLE_PASSEPORT = 'motamorphose:passeport';
+
+export function compterMotPasseport(jour, espace) {
+  if (!espace) return null;
+  let compte = null;
+  try { compte = JSON.parse(espace.getItem(CLE_PASSEPORT)); } catch { /* illisible : on repart */ }
+  const mots = compte?.jour === jour && Number.isInteger(compte.mots) ? compte.mots + 1 : 1;
+  try { espace.setItem(CLE_PASSEPORT, JSON.stringify({ jour, mots })); } catch { /* le passeport signale l'echec */ }
+  return mots;
+}

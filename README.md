@@ -8,6 +8,17 @@ coups joués et la distance optimale.
 Il fonctionne dans le navigateur, au doigt comme au clavier, sans serveur et
 sans dépendance de production. Une fois chargé, il reste disponible hors ligne.
 
+## Version 1.2.0 — Le passeport commun
+
+Ouvert depuis le hub avec un passeport, le jeu range séries, réglages et thème
+dans l’espace du joueur ; en mode invité, rien ne change. Un bandeau rappelle le
+profil et la consigne du jour.
+
+Le tampon **Mots** récompense l’effort ou la réussite, au premier des deux : la
+chaîne trouvée le donne tout de suite ; sinon, c’est le dixième mot accepté dans
+la journée, toutes parties confondues. Un mot refusé par le dictionnaire ne
+compte pas.
+
 ## Version 1.1.3
 
 - **le viewport interdit enfin le zoom tactile** (`user-scalable=no`, complété

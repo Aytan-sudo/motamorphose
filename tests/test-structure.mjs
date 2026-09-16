@@ -22,5 +22,13 @@ for (const longueur of [4, 5, 6]) {
 }
 const dictionnaire = JSON.parse(await readFile(new URL('js/data/mots5.json', racine), 'utf8'));
 assert.ok(dictionnaire.mots.some(entree => entree[0] === 'alter'), 'ALTER doit être accepté');
+// Le passeport : le bandeau annonce le jeu au module commun, et les trois
+// fichiers distribues par le hub doivent etre dans le cache — sans eux, la page
+// hors ligne s'ouvre sans bandeau et le joueur perd son espace.
+assert.match(html, /data-passeport-ruban data-jeu="motamorphose"/);
+for (const fichier of ['passeport.js', 'liaison.js', 'passeport.css']) {
+  assert.match(html, new RegExp(`commun/${fichier}`), `${fichier} absent de la page`);
+  assert.match(sw, new RegExp(`commun/${fichier.replace('.', '\\.')}`), `${fichier} absent du cache`);
+}
 assert.doesNotMatch(html, /Math\.random/); assert.doesNotMatch(app, /Math\.random/);
 console.log('✓ page, palettes, cache et dictionnaire');

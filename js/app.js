@@ -3,11 +3,11 @@ import { creerHasard } from './hasard.js';
 import { choisirPaire, DISTANCES } from './paires.js';
 import { creerPartie, validerMot, annuler, demanderIndice, score, MAX_INDICES } from './partie.js';
 import { defiDuJour, partager } from './defi.js';
-import { charger, enregistrer, seriePour } from './records.js';
+import { charger, enregistrer, seriePour, compterMotPasseport } from './records.js';
 import { THEMES, themeInitial } from './themes.js';
 import { afficherChemin, afficherCible } from './render.js';
 
-const VERSION = '1.1.3';
+const VERSION = '1.2.0';
 const $ = id => document.getElementById(id);
 const elements = {
   chemin: $('chemin'), cible: $('mot-cible'), formulaire: $('formulaire-mot'), saisie: $('saisie-mot'),
@@ -21,11 +21,15 @@ const elements = {
 };
 
 const cachesDictionnaires = new Map();
+// Ouvert depuis le hub avec un passeport, le jeu range tout dans l'espace du
+// joueur ; en mode invité, dans le localStorage, comme avant.
+const passeport = globalThis.Passeport?.stockageJeu('motamorphose') ?? null;
+const magasin = passeport ?? globalThis.localStorage;
 let donnees, graphe, communs, affichages, partie, mode = 'jour';
-let record = charger();
-let longueur = Number(localStorage.getItem('motamorphose:longueur'));
+let record = charger(magasin);
+let longueur = Number(magasin.getItem('motamorphose:longueur'));
 if (![4, 5, 6].includes(longueur)) longueur = 5;
-let theme = themeInitial();
+let theme = themeInitial(magasin);
 document.documentElement.dataset.theme = theme;
 elements.longueur.value = String(longueur);
 elements.version.textContent = `Version ${VERSION}`;
@@ -52,7 +56,7 @@ async function chargerDictionnaire(nouvelleLongueur) {
   }
   longueur = nouvelleLongueur;
   ({ donnees, affichages, communs, graphe } = cachesDictionnaires.get(longueur));
-  localStorage.setItem('motamorphose:longueur', String(longueur));
+  magasin.setItem('motamorphose:longueur', String(longueur));
   elements.saisie.maxLength = longueur;
   elements.serie.textContent = seriePour(record, longueur);
   elements.tempsGraphe.textContent = `${cachesDictionnaires.get(longueur).dureeMs.toFixed(1)} ms`;
@@ -85,13 +89,24 @@ function nouvellePartie(type = mode) {
   elements.saisie.focus({ preventScroll: true });
 }
 
+// Le tampon du passeport : la chaîne trouvée le donne tout de suite ; sinon,
+// c'est le dixième mot accepté de la journée, toutes parties confondues. En
+// mode invité, rien n'est compté ni écrit.
+function noterPasseport({ mot = false, reussite = false } = {}) {
+  const joueur = globalThis.Passeport;
+  if (!joueur?.profilId) return;
+  const mots = mot ? compterMotPasseport(joueur.jourLocal(), passeport) : 0;
+  if (mots !== null) joueur.noter('motamorphose', mots, reussite);
+}
+
 function finir() {
   elements.formulaire.hidden = true;
   elements.resultat.hidden = false;
   const etapes = partie.chemin.length - 1;
   elements.resume.textContent = `Trouvé en ${etapes}, optimal ${partie.optimal} · ${partie.indices} indice${partie.indices > 1 ? 's' : ''} · ${partie.retours} retour${partie.retours > 1 ? 's' : ''} · score ${score(partie)}.`;
+  noterPasseport({ reussite: true });
   if (partie.mode === 'jour' && partie.jour) {
-    record = enregistrer(record, partie, partie.jour);
+    record = enregistrer(record, partie, partie.jour, magasin);
     elements.serie.textContent = seriePour(record, longueur);
   }
 }
@@ -100,6 +115,7 @@ elements.formulaire.addEventListener('submit', evenement => {
   evenement.preventDefault();
   const resultat = validerMot(partie, elements.saisie.value, affichages);
   if (resultat.erreur) { rendre(resultat.erreur); elements.saisie.select(); return; }
+  noterPasseport({ mot: true });   // un mot accepté, jamais un refus
   partie = resultat.partie; elements.saisie.value = ''; rendre();
 });
 elements.annuler.addEventListener('click', () => { partie = annuler(partie); rendre(); });
@@ -120,7 +136,7 @@ elements.options.addEventListener('click', () => elements.dialogueOptions.showMo
 elements.fermerOptions.addEventListener('click', () => elements.dialogueOptions.close());
 elements.choixTheme.addEventListener('change', () => {
   theme = elements.choixTheme.value; document.documentElement.dataset.theme = theme;
-  localStorage.setItem('motamorphose:theme', theme);
+  magasin.setItem('motamorphose:theme', theme);
 });
 elements.longueur.addEventListener('change', async () => {
   elements.erreur.textContent = 'Chargement du dictionnaire…';
