@@ -7,7 +7,7 @@ import { charger, enregistrer, seriePour, compterMotPasseport } from './records.
 import { THEMES, themeInitial } from './themes.js';
 import { afficherChemin, afficherCible } from './render.js';
 
-const VERSION = '1.2.2';
+const VERSION = '1.2.3';
 const $ = id => document.getElementById(id);
 const elements = {
   chemin: $('chemin'), cible: $('mot-cible'), formulaire: $('formulaire-mot'), saisie: $('saisie-mot'),

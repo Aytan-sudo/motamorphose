@@ -1,6 +1,6 @@
 {
   "name": "motamorphose",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "private": true,
   "description": "Jeu français de mot-échelle, hors ligne et sans dépendance.",
   "type": "module",

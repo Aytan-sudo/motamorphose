@@ -1,4 +1,4 @@
-const CACHE = 'motamorphose-v10';
+const CACHE = 'motamorphose-v11';
 const RESSOURCES = [
   './', './index.html', './css/style.css', './manifest.webmanifest', './assets/icon.svg',
   './assets/icon-180.png', './assets/icon-192.png', './assets/icon-512.png',
